@@ -1,0 +1,118 @@
+<!doctype html>
+<html>
+	<head>   
+		<meta charset="utf-8" />
+		<title>Chart.js </title>
+		<script src='static/Chart.min.js'></script>
+	</head>
+	<style>
+		@font-face {
+			font-family: myFirstFont;
+			src: url(sansation_bold.woff);
+			font-weight: bold;
+		}
+		body {
+			margin: 0;
+			font-family: Arial, Helvetica, sans-serif;
+			background-color: #334455;
+		}
+		#main_block{
+			margin: auto;
+			margin-top: 100px;
+			height: 650px;
+			width: 600px;
+			background-color: #FFF;
+			border-radius: 10px;
+			box-shadow: 8px 8px 5px #000;
+		}
+		#block_t{
+			border-top-left-radius: 10px;
+			border-top-right-radius: 10px;
+			height: 40px;
+			padding-top: 0px;
+			padding-left: 10px;
+			padding-right: 10px;
+			background-color: #687888;
+		}""
+		input[type=text], select {
+			width: 100%;
+			padding: 12px 20px;
+			margin: 8px 0;
+			display: inline-block;
+			border: 1px solid #ccc;
+			border-radius: 4px;
+			box-sizing: border-box;
+		}
+
+		input[type=submit] {
+			width: 100%;
+			background-color: #4CAF50;
+			color: white;
+			padding: 14px 20px;
+			margin: 8px 0;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+		}
+		span{
+			font-weight: bold; font-size: 20px
+		}
+	</style>
+	<body background:#334455>
+		<div id="main_block">
+			<div id="block_t">
+			<h1 style="color:white; text-align:center">Sentiment Analysis</h1>
+
+			<form action ="/showPieChart" method = post>
+			<table style="width: 100%">
+			<tr>
+				<td><h1>Pie Chart of inputs from users</h1><td>
+   				
+			</tr>
+			<tr>
+				<td>
+					<canvas id="chart" width="600" height="400"></canvas>
+					<script>
+					   var pieData = [
+						    {% for item,label,colors in set %}
+							{
+							    value: {{item}},
+							    label: "{{label}}",
+							    color : "{{colors}}"
+							},
+							{% endfor %}
+						 ];
+					 
+					   // get bar chart canvas
+					   var mychart = document.getElementById("chart").getContext("2d");
+					 
+					   steps = 10
+					   max = 10
+					   // draw pie chart
+					   new Chart(document.getElementById("chart").getContext("2d")).Pie(pieData);
+					 
+					</script>
+				</td>
+			</tr>
+			</table>
+			<hr>
+
+			</form>
+
+			<table>
+				<td>
+					<form action ="/showNegativeSen" method = post>
+						<input type = submit value = 'Show negative sentences'>
+					</form>
+				</td>
+
+				<td>
+					<form action ="/showPositiveSen" method = post>
+						<input type = submit value = 'Show positive sentences'>
+					</form>
+				</td>
+			</table>
+			</div>
+		</div>
+	</body>
+</html>
